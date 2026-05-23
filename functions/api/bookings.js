@@ -1,0 +1,19 @@
+export async function onRequest(context) {
+  const { env } = context;
+  
+  try {
+    // Fetch all confirmed bookings from D1
+    const { results } = await env.DB.prepare(
+      "SELECT room_id, check_in, check_out FROM bookings WHERE status = 'confirmed'"
+    ).all();
+
+    return new Response(JSON.stringify(results), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
