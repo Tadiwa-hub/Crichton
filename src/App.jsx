@@ -237,15 +237,6 @@ export default function App() {
     fetchData();
   }, []);
 
-  const isRoomOccupied = (roomId) => {
-    const today = new Date().toISOString().split('T')[0];
-    return (bookings || []).some(b => 
-      b.room_id === roomId && 
-      today >= b.check_in && 
-      today < b.check_out
-    );
-  };
-
   const nextSlide = () => {
     setCurrentGalleryIndex((prev) => (prev + 1) % galleryImages.length);
   };
