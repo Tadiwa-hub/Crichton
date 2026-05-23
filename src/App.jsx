@@ -233,7 +233,7 @@ export default function App() {
 
   const isRoomOccupied = (roomId) => {
     const today = new Date().toISOString().split('T')[0];
-    return bookings.some(b => 
+    return (bookings || []).some(b => 
       b.room_id === roomId && 
       today >= b.check_in && 
       today < b.check_out
@@ -303,7 +303,7 @@ export default function App() {
     }
   };
 
-  const rooms = dbRooms.map(room => ({
+  const rooms = (dbRooms || []).map(room => ({
     ...room,
     price: room.id === "Sanyati" ? "65" : room.id === "Pungwe" ? "55" : room.id === "Self Catering" ? "50" : room.id === "Full House" ? "160" : "45",
     ...(roomUIConfig[room.id] || {})
