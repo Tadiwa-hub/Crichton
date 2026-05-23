@@ -279,11 +279,11 @@ export default function App() {
     },
     "Self Catering": {
       images: [
-        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.07.jpeg",
-        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.08%20(1).jpeg",
-        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.10.jpeg",
-        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.13.jpeg",
-        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.15.jpeg"
+        "/self-catering/sc1.jpg",
+        "/self-catering/sc2.jpg",
+        "/self-catering/sc3.jpg",
+        "/self-catering/sc4.jpg",
+        "/self-catering/sc5.jpg"
       ],
       features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
       type: "Private and Independent"
@@ -367,9 +367,11 @@ export default function App() {
     "/Gwayi/WhatsApp Image 2026-05-12 at 9.08.15 PM.jpeg",
     "/Odzi/WhatsApp Image 2026-05-23 at 09.48.05.jpeg",
     "/Odzi/WhatsApp Image 2026-05-23 at 09.48.06 (2).jpeg",
-    "/Self catering/WhatsApp Image 2026-05-23 at 09.48.08 (1).jpeg",
-    "/Self catering/WhatsApp Image 2026-05-23 at 09.48.14.jpeg",
-    "/Self catering/WhatsApp Image 2026-05-23 at 09.48.17.jpeg"
+    "/self-catering/sc1.jpg",
+    "/self-catering/sc2.jpg",
+    "/self-catering/sc3.jpg",
+    "/self-catering/sc4.jpg",
+    "/self-catering/sc5.jpg"
   ];
 
   const containerVariants = {
