@@ -40,6 +40,21 @@ const WhatsAppIcon = ({ className }) => (
 
 // --- Components ---
 
+const CalendarInput = React.forwardRef(({ value, onClick, startDate, endDate }, ref) => (
+  <button
+    type="button"
+    onClick={onClick}
+    ref={ref}
+    className="w-full bg-transparent border-b border-ivory/20 py-3 text-ivory text-left focus:border-gold outline-none transition-all"
+  >
+    {startDate ? (
+      `${format(startDate, 'MMM dd, yyyy')} - ${endDate ? format(endDate, 'MMM dd, yyyy') : 'Select End Date'}`
+    ) : (
+      "Click to choose your dates"
+    )}
+  </button>
+));
+
 const StatItem = ({ value, label, suffix = "" }) => {
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);
@@ -914,13 +929,7 @@ export default function App() {
                     }
                     ref={datePickerRef}
                     customInput={
-                      <button type="button" className="w-full bg-transparent border-b border-ivory/20 py-3 text-ivory text-left focus:border-gold outline-none transition-all">
-                        {startDate ? (
-                          `${format(startDate, 'MMM dd, yyyy')} - ${endDate ? format(endDate, 'MMM dd, yyyy') : 'Select End Date'}`
-                        ) : (
-                          "Click to choose your dates"
-                        )}
-                      </button>
+                      <CalendarInput startDate={startDate} endDate={endDate} />
                     }
                     calendarClassName="premium-calendar"
                     monthsShown={window.innerWidth > 768 ? 2 : 1}
