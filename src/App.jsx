@@ -294,7 +294,7 @@ export default function App() {
     "Self Catering": {
       images: [
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.07.jpeg",
-        "/Self catering/WhatsApp Image 2026-05-23 at 09.48.08.jpeg",
+        "/Self catering/WhatsApp Image 2026-05-23 at 09.48.08 (1).jpeg",
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.10.jpeg",
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.13.jpeg",
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.15.jpeg"
@@ -314,6 +314,28 @@ export default function App() {
     price: room.id === "Sanyati" ? "65" : room.id === "Pungwe" ? "55" : room.id === "Self Catering" ? "50" : room.id === "Full House" ? "160" : "45",
     ...(roomUIConfig[room.id] || {})
   }));
+
+  const isRoomOccupied = (roomId) => {
+    const today = new Date().toISOString().split('T')[0];
+    return (bookings || []).some(b => {
+      // If we are checking the Full House card
+      if (roomId === 'Full House') {
+        // Full House is occupied if IT is booked OR if ANY room (except Self Catering) is booked
+        return (b.room_id === 'Full House' || (b.room_id !== 'Full House' && b.room_id !== 'Self Catering')) && 
+               today >= b.check_in && today < b.check_out;
+      }
+      
+      // If we are checking the Self Catering card
+      if (roomId === 'Self Catering') {
+        return b.room_id === 'Self Catering' && today >= b.check_in && today < b.check_out;
+      }
+
+      // If we are checking an individual room (Sanyati, Pungwe, etc.)
+      // It is occupied if IT is booked OR if the Full House is booked
+      return (b.room_id === roomId || b.room_id === 'Full House') && 
+             today >= b.check_in && today < b.check_out;
+    });
+  };
 
   const amenities = [
     { icon: <Trees className="w-6 h-6" />, label: "Lush Garden with Gazebo" },
