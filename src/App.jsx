@@ -258,22 +258,22 @@ export default function App() {
 
   const roomUIConfig = {
     "Sanyati": {
-      image: "/Sanyati/WhatsApp Image 2026-05-12 at 9.07.37 PM.jpeg",
+      image: "/sanyati/room.jpg",
       features: ["Private ensuite bathroom", "Spacious and warmly appointed", "Executive level comfort"],
       type: "Executive Level Comfort"
     },
     "Pungwe": {
-      image: "/Pungwe/WhatsApp Image 2026-05-12 at 9.07.54 PM.jpeg",
+      image: "/pungwe/room.jpg",
       features: ["Private ensuite bathroom", "Comfortable and elegant", "Perfect for solo or couple stays"],
       type: "Perfect for Solo or Couple Stays"
     },
     "Odzi": {
-      image: "/Odzi/WhatsApp Image 2026-05-23 at 09.48.05 (1).jpeg",
+      image: "/odzi/room.jpg",
       features: ["Shares bathroom with one other room", "Warmly appointed", "Great value"],
       type: "Warmly Appointed"
     },
     "Gwayi": {
-      image: "/Gwayi/WhatsApp Image 2026-05-12 at 9.08.15 PM.jpeg",
+      image: "/gwayi/room.jpg",
       features: ["Shares bathroom with one other room", "Comfortable and cosy", "Great value"],
       type: "Comfortable and Cosy"
     },
@@ -289,7 +289,7 @@ export default function App() {
       type: "Private and Independent"
     },
     "Full House": {
-      image: "/Sanyati/WhatsApp Image 2026-05-12 at 9.07.39 PM.jpeg",
+      image: "/sanyati/full-house.jpg",
       features: ["Entire property exclusively yours", "Perfect for families or groups", "All amenities included"],
       type: "Exclusively Yours"
     }
@@ -355,18 +355,15 @@ export default function App() {
   ];
 
   const galleryImages = [
-    "/Images/WhatsApp Image 2026-05-12 at 9.49.36 PM (1).jpeg",
-    "/Images/WhatsApp Image 2026-05-12 at 9.49.39 PM.jpeg",
-    "/Images/WhatsApp Image 2026-05-12 at 9.49.43 PM.jpeg",
-    "/Images/WhatsApp Image 2026-05-12 at 9.49.44 PM (1).jpeg",
-    "/Pungwe/WhatsApp Image 2026-05-12 at 9.07.53 PM.jpeg",
-    "/Pungwe/WhatsApp Image 2026-05-12 at 9.07.55 PM.jpeg",
-    "/Sanyati/WhatsApp Image 2026-05-12 at 9.07.37 PM.jpeg",
-    "/Sanyati/WhatsApp Image 2026-05-12 at 9.07.38 PM (1).jpeg",
-    "/Sanyati/WhatsApp Image 2026-05-12 at 9.07.40 PM.jpeg",
-    "/Gwayi/WhatsApp Image 2026-05-12 at 9.08.15 PM.jpeg",
-    "/Odzi/WhatsApp Image 2026-05-23 at 09.48.05.jpeg",
-    "/Odzi/WhatsApp Image 2026-05-23 at 09.48.06 (2).jpeg",
+    "/images/hero.jpg",
+    "/images/garden.jpg",
+    "/images/lounge.jpg",
+    "/images/experience.jpg",
+    "/pungwe/room.jpg",
+    "/sanyati/room.jpg",
+    "/sanyati/full-house.jpg",
+    "/gwayi/room.jpg",
+    "/odzi/room.jpg",
     "/self-catering/sc1.jpg",
     "/self-catering/sc2.jpg",
     "/self-catering/sc3.jpg",
@@ -522,7 +519,7 @@ export default function App() {
           className="absolute inset-0 z-0"
         >
           <img 
-            src="/Images/WhatsApp Image 2026-05-12 at 9.49.36 PM (1).jpeg" 
+            src="/images/hero.jpg" 
             alt="Crichton Cottage Property" 
             className="w-full h-full object-cover"
           />
@@ -632,7 +629,7 @@ export default function App() {
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/Images/WhatsApp Image 2026-05-12 at 9.49.44 PM.jpeg" 
+            src="/images/intro.jpg" 
             className="w-full h-full object-cover opacity-20 grayscale"
             alt="Property Background"
           />
@@ -663,7 +660,7 @@ export default function App() {
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="/Sanyati/WhatsApp Image 2026-05-12 at 9.07.40 PM.jpeg" 
+            src="/sanyati/stats.jpg" 
             className="w-full h-full object-cover"
             alt="Stats Background"
           />
@@ -706,7 +703,7 @@ export default function App() {
       <section id="experience" className="relative py-48 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="/Images/WhatsApp Image 2026-05-12 at 9.49.44 PM (2).jpeg" 
+            src="/images/experience.jpg" 
             alt="Garden" 
             className="w-full h-full object-cover"
           />
@@ -848,7 +845,7 @@ export default function App() {
       <section id="book" className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="/Pungwe/WhatsApp Image 2026-05-12 at 9.07.54 PM.jpeg" 
+            src="/pungwe/room.jpg" 
             className="w-full h-full object-cover"
             alt="Booking Background"
           />
@@ -1074,7 +1071,7 @@ export default function App() {
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="/Images/WhatsApp Image 2026-05-12 at 9.49.44 PM (1).jpeg" 
+            src="/images/lounge.jpg" 
             className="w-full h-full object-cover"
             alt="Testimonials Background"
           />
@@ -1114,7 +1111,7 @@ export default function App() {
       <section id="contact" className="relative py-32 overflow-hidden bg-forest/5">
         <div className="absolute inset-0">
           <img 
-            src="/Images/WhatsApp Image 2026-05-12 at 9.49.43 PM.jpeg" 
+            src="/images/garden.jpg" 
             className="w-full h-full object-cover opacity-10 grayscale"
             alt="Location Map Background"
           />
