@@ -84,3 +84,47 @@
 .gold-divider {
   @apply h-[1px] w-12 bg-gold/50 mx-auto;
 }
+
+/* Custom Calendar Styling */
+.premium-calendar {
+  background-color: #194332 !important; /* forest */
+  border: 1px solid rgba(201, 168, 76, 0.2) !important; /* gold/20 */
+  border-radius: 1rem !important;
+  font-family: 'Cormorant Garamond', serif !important;
+  color: #f4f1ea !important; /* ivory */
+}
+
+.react-datepicker__header {
+  background-color: #194332 !important;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2) !important;
+}
+
+.react-datepicker__current-month, .react-datepicker__day-name {
+  color: #c9a84c !important; /* gold */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.react-datepicker__day {
+  color: #f4f1ea !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: rgba(201, 168, 76, 0.2) !important;
+}
+
+.react-datepicker__day--selected, 
+.react-datepicker__day--in-range,
+.react-datepicker__day--in-selecting-range {
+  background-color: #c9a84c !important;
+  color: #194332 !important;
+}
+
+.react-datepicker__day--disabled {
+  color: rgba(244, 241, 234, 0.2) !important;
+  text-decoration: line-through;
+}
+
+.react-datepicker__day--outside-month {
+  opacity: 0.3;
+}

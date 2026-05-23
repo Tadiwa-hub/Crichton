@@ -24,6 +24,9 @@ import {
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { format, parseISO } from 'date-fns';
 
 function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -191,6 +194,8 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
   const [bookings, setBookings] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     // Fetch real-time bookings from Cloudflare D1
@@ -378,6 +383,13 @@ export default function App() {
 
   const handleBooking = async (e) => {
     e.preventDefault();
+    if (!startDate || !endDate) {
+      alert("Please select your stay dates on the calendar.");
+      return;
+    }
+
+    const checkInStr = format(startDate, 'yyyy-MM-dd');
+    const checkOutStr = format(endDate, 'yyyy-MM-dd');
 
     // 1. Automatically save to D1 Database
     try {
@@ -386,8 +398,8 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           room_id: formData.room,
-          check_in: formData.checkIn,
-          check_out: formData.checkOut
+          check_in: checkInStr,
+          check_out: checkOutStr
         })
       });
       
@@ -407,8 +419,8 @@ export default function App() {
 *Email:* ${formData.email}
 *Phone:* ${formData.phone}
 *Location:* ${formData.location}
-*Check-in:* ${formData.checkIn}
-*Check-out:* ${formData.checkOut}
+*Check-in:* ${checkInStr}
+*Check-out:* ${checkOutStr}
 *Guests:* ${formData.guests}
 *How did you hear:* ${formData.source}
 *Special requests:* ${formData.requests || 'None'}`;
@@ -882,25 +894,33 @@ export default function App() {
                   <option className="bg-forest" value="Full House">Full House ~ All Four Rooms</option>
                 </select>
               </div>
-              <div className="space-y-3">
-                <label className="text-[10px] uppercase tracking-widest text-gold font-semibold">Check-in (Min 2 Nights)</label>
-                <input 
-                  type="date" 
-                  required
-                  className="w-full bg-transparent border-b border-ivory/20 py-3 text-ivory focus:border-gold outline-none transition-all"
-                  value={formData.checkIn}
-                  onChange={(e) => setFormData({...formData, checkIn: e.target.value})}
-                />
-              </div>
-              <div className="space-y-3">
-                <label className="text-[10px] uppercase tracking-widest text-gold font-semibold">Check-out</label>
-                <input 
-                  type="date" 
-                  required
-                  className="w-full bg-transparent border-b border-ivory/20 py-3 text-ivory focus:border-gold outline-none transition-all"
-                  value={formData.checkOut}
-                  onChange={(e) => setFormData({...formData, checkOut: e.target.value})}
-                />
+              <div className="md:col-span-2 space-y-3">
+                <label className="text-[10px] uppercase tracking-widest text-gold font-semibold">Select Your Stay Dates (Min 2 Nights)</label>
+                <div className="flex justify-center p-4 bg-white/5 rounded-xl border border-gold/10">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(dates) => {
+                      const [start, end] = dates;
+                      setStartDate(start);
+                      setEndDate(end);
+                    }}
+                    startDate={startDate}
+                    endDate={endDate}
+                    selectsRange
+                    inline
+                    minDate={new Date()}
+                    excludeDateIntervals={
+                      bookings
+                        .filter(b => b.room_id === formData.room)
+                        .map(b => ({
+                          start: parseISO(b.check_in),
+                          end: parseISO(b.check_out)
+                        }))
+                    }
+                    calendarClassName="premium-calendar"
+                    monthsShown={window.innerWidth > 768 ? 2 : 1}
+                  />
+                </div>
               </div>
               <div className="space-y-3">
                 <label className="text-[10px] uppercase tracking-widest text-gold font-semibold">Number of Guests</label>
