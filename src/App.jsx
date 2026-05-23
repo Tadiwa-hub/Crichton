@@ -170,11 +170,6 @@ const RoomCard = ({ room, index, onBook, isOccupied }) => {
           >
             <div className="flex justify-between items-start mb-1">
               <h3 className="text-xl md:text-2xl font-cormorant text-forest">{room.name}</h3>
-              {isOccupied ? (
-                <span className="px-3 py-1 bg-red-100 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-tighter">Occupied</span>
-              ) : (
-                <span className="px-3 py-1 bg-green-100 text-green-600 text-[10px] font-bold rounded-full uppercase tracking-tighter">Available Now</span>
-              )}
             </div>
             <p className="text-gold font-medium mb-3 tracking-widest uppercase text-[9px]">{room.type}</p>
             <p className="text-lg font-cormorant text-earth mb-4">USD {room.price} <span className="text-xs font-inter text-forest/60">/ night</span></p>
@@ -284,11 +279,11 @@ export default function App() {
     },
     "Self Catering": {
       images: [
-        "/Self catering/WhatsApp Image 2026-05-23 at 09.48.07.jpeg",
-        "/Self catering/WhatsApp Image 2026-05-23 at 09.48.08 (1).jpeg",
-        "/Self catering/WhatsApp Image 2026-05-23 at 09.48.10.jpeg",
-        "/Self catering/WhatsApp Image 2026-05-23 at 09.48.13.jpeg",
-        "/Self catering/WhatsApp Image 2026-05-23 at 09.48.15.jpeg"
+        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.07.jpeg",
+        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.08%20(1).jpeg",
+        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.10.jpeg",
+        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.13.jpeg",
+        "/Self%20catering/WhatsApp%20Image%202026-05-23%20at%2009.48.15.jpeg"
       ],
       features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
       type: "Private and Independent"
