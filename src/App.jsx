@@ -376,8 +376,32 @@ export default function App() {
     requests: ''
   });
 
-  const handleBooking = (e) => {
+  const handleBooking = async (e) => {
     e.preventDefault();
+
+    // 1. Automatically save to D1 Database
+    try {
+      await fetch('/api/create-booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          room_id: formData.room,
+          check_in: formData.checkIn,
+          check_out: formData.checkOut
+        })
+      });
+      
+      // Refresh local bookings state to show the update immediately
+      const response = await fetch('/api/bookings');
+      if (response.ok) {
+        const data = await response.json();
+        setBookings(data);
+      }
+    } catch (err) {
+      console.error("Failed to auto-save booking:", err);
+    }
+
+    // 2. Open WhatsApp as usual
     const message = `Hello! I'd like to book ${formData.room} at Crichton Cottage.
 *Name:* ${formData.name}
 *Email:* ${formData.email}
