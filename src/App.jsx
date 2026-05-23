@@ -61,6 +61,11 @@ const roomUIConfig = {
     features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
     type: "Private and Independent"
   },
+  "self-catering": {
+    image: asset("self-catering/sc1.jpg"),
+    features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
+    type: "Private and Independent"
+  },
   "Full House": {
     image: asset("sanyati/full-house.jpg"),
     features: ["Entire property exclusively yours", "Perfect for families or groups", "All amenities included"],
@@ -278,11 +283,18 @@ export default function App() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  const rooms = (dbRooms || []).map(room => ({
-    ...room,
-    price: room.id === "Sanyati" ? "65" : room.id === "Pungwe" ? "55" : room.id === "Self Catering" ? "50" : room.id === "Full House" ? "160" : "45",
-    ...(roomUIConfig[room.id] || {})
-  }));
+  const rooms = (dbRooms || []).map(room => {
+    // Try exact match first, then try normalized versions
+    let config = roomUIConfig[room.id];
+    if (!config && room.id === "self-catering") config = roomUIConfig["Self Catering"];
+    if (!config && room.id === "Self-Catering") config = roomUIConfig["Self Catering"];
+    
+    return {
+      ...room,
+      price: room.id === "Sanyati" ? "65" : room.id === "Pungwe" ? "55" : room.id === "Self Catering" || room.id === "self-catering" ? "50" : room.id === "Full House" ? "160" : "45",
+      ...(config || {})
+    };
+  });
 
   const isRoomOccupied = (roomId) => {
     const today = new Date().toISOString().split('T')[0];
