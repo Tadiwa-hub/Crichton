@@ -194,23 +194,26 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
   const [bookings, setBookings] = useState([]);
+  const [dbRooms, setDbRooms] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const datePickerRef = useRef(null);
 
   useEffect(() => {
-    // Fetch real-time bookings from Cloudflare D1
-    const fetchBookings = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/api/bookings');
-        if (response.ok) {
-          const data = await response.json();
-          setBookings(data);
-        }
+        const [roomsRes, bookingsRes] = await Promise.all([
+          fetch('/api/rooms'),
+          fetch('/api/bookings')
+        ]);
+        
+        if (roomsRes.ok) setDbRooms(await roomsRes.json());
+        if (bookingsRes.ok) setBookings(await bookingsRes.json());
       } catch (err) {
-        console.error("Failed to fetch bookings:", err);
+        console.error("Failed to fetch data:", err);
       }
     };
-    fetchBookings();
+    fetchData();
   }, []);
 
   const isRoomOccupied = (roomId) => {
@@ -246,44 +249,28 @@ export default function App() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  const rooms = [
-    {
-      id: "Sanyati",
-      name: "SANYATI ~ Executive Ensuite",
-      type: "Executive Level Comfort",
-      price: "65",
+  const roomUIConfig = {
+    "Sanyati": {
       image: "/Sanyati/WhatsApp Image 2026-05-12 at 9.07.37 PM.jpeg",
-      features: ["Private ensuite bathroom", "Spacious and warmly appointed", "Executive level comfort"]
+      features: ["Private ensuite bathroom", "Spacious and warmly appointed", "Executive level comfort"],
+      type: "Executive Level Comfort"
     },
-    {
-      id: "Pungwe",
-      name: "PUNGWE ~ Standard Ensuite",
-      type: "Perfect for Solo or Couple Stays",
-      price: "55",
+    "Pungwe": {
       image: "/Pungwe/WhatsApp Image 2026-05-12 at 9.07.54 PM.jpeg",
-      features: ["Private ensuite bathroom", "Comfortable and elegant", "Perfect for solo or couple stays"]
+      features: ["Private ensuite bathroom", "Comfortable and elegant", "Perfect for solo or couple stays"],
+      type: "Perfect for Solo or Couple Stays"
     },
-    {
-      id: "Odzi",
-      name: "ODZI ~ Shared Bathroom",
-      type: "Warmly Appointed",
-      price: "45",
+    "Odzi": {
       image: "/Odzi/WhatsApp Image 2026-05-23 at 09.48.05 (1).jpeg",
-      features: ["Shares bathroom with one other room", "Warmly appointed", "Great value"]
+      features: ["Shares bathroom with one other room", "Warmly appointed", "Great value"],
+      type: "Warmly Appointed"
     },
-    {
-      id: "Gwayi",
-      name: "GWAYI ~ Shared Bathroom",
-      type: "Comfortable and Cosy",
-      price: "45",
+    "Gwayi": {
       image: "/Gwayi/WhatsApp Image 2026-05-12 at 9.08.15 PM.jpeg",
-      features: ["Shares bathroom with one other room", "Comfortable and cosy", "Great value"]
+      features: ["Shares bathroom with one other room", "Comfortable and cosy", "Great value"],
+      type: "Comfortable and Cosy"
     },
-    {
-      id: "Self Catering",
-      name: "SELF CATERING ~ Garden Cottage",
-      type: "Private and Independent",
-      price: "50",
+    "Self Catering": {
       images: [
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.07.jpeg",
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.08.jpeg",
@@ -291,17 +278,21 @@ export default function App() {
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.13.jpeg",
         "/Self catering/WhatsApp Image 2026-05-23 at 09.48.15.jpeg"
       ],
-      features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"]
+      features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
+      type: "Private and Independent"
     },
-    {
-      id: "Full House",
-      name: "FULL HOUSE ~ All Four Rooms",
-      type: "Exclusively Yours",
-      price: "160",
+    "Full House": {
       image: "/Sanyati/WhatsApp Image 2026-05-12 at 9.07.39 PM.jpeg",
-      features: ["Entire property exclusively yours", "Perfect for families or groups", "All amenities included"]
+      features: ["Entire property exclusively yours", "Perfect for families or groups", "All amenities included"],
+      type: "Exclusively Yours"
     }
-  ];
+  };
+
+  const rooms = dbRooms.map(room => ({
+    ...room,
+    price: room.id === "Sanyati" ? "65" : room.id === "Pungwe" ? "55" : room.id === "Self Catering" ? "50" : room.id === "Full House" ? "160" : "45",
+    ...(roomUIConfig[room.id] || {})
+  }));
 
   const amenities = [
     { icon: <Trees className="w-6 h-6" />, label: "Lush Garden with Gazebo" },
@@ -432,6 +423,11 @@ export default function App() {
   const selectRoom = (roomId) => {
     setFormData(prev => ({ ...prev, room: roomId }));
     document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      if (datePickerRef.current) {
+        datePickerRef.current.setOpen(true);
+      }
+    }, 800);
   };
 
   return (
@@ -895,8 +891,8 @@ export default function App() {
                 </select>
               </div>
               <div className="md:col-span-2 space-y-3">
-                <label className="text-[10px] uppercase tracking-widest text-gold font-semibold">Select Your Stay Dates (Min 2 Nights)</label>
-                <div className="flex justify-center p-4 bg-white/5 rounded-xl border border-gold/10">
+                <label className="text-[10px] uppercase tracking-widest text-gold font-semibold">Select Your Stay Dates (Click to open Calendar)</label>
+                <div className="relative">
                   <DatePicker
                     selected={startDate}
                     onChange={(dates) => {
@@ -907,7 +903,6 @@ export default function App() {
                     startDate={startDate}
                     endDate={endDate}
                     selectsRange
-                    inline
                     minDate={new Date()}
                     excludeDateIntervals={
                       bookings
@@ -917,8 +912,19 @@ export default function App() {
                           end: parseISO(b.check_out)
                         }))
                     }
+                    ref={datePickerRef}
+                    customInput={
+                      <button type="button" className="w-full bg-transparent border-b border-ivory/20 py-3 text-ivory text-left focus:border-gold outline-none transition-all">
+                        {startDate ? (
+                          `${format(startDate, 'MMM dd, yyyy')} - ${endDate ? format(endDate, 'MMM dd, yyyy') : 'Select End Date'}`
+                        ) : (
+                          "Click to choose your dates"
+                        )}
+                      </button>
+                    }
                     calendarClassName="premium-calendar"
                     monthsShown={window.innerWidth > 768 ? 2 : 1}
+                    popperPlacement="bottom-start"
                   />
                 </div>
               </div>
