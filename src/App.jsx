@@ -180,7 +180,7 @@ const RoomCard = ({ room, index, onBook, isOccupied }) => {
             <p className="text-lg font-cormorant text-earth mb-4">USD {room.price} <span className="text-xs font-inter text-forest/60">/ night</span></p>
             
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 mb-6">
-              {room.features.map((feature, i) => (
+              {(room.features || []).map((feature, i) => (
                 <li key={i} className="flex items-center gap-2 text-forest/80 italic font-cormorant text-sm">
                   <span className="w-1 h-1 bg-gold rounded-full shrink-0" />
                   {feature}
@@ -222,8 +222,14 @@ export default function App() {
           fetch('/api/bookings')
         ]);
         
-        if (roomsRes.ok) setDbRooms(await roomsRes.json());
-        if (bookingsRes.ok) setBookings(await bookingsRes.json());
+        if (roomsRes.ok) {
+          const data = await roomsRes.json();
+          setDbRooms(Array.isArray(data) ? data : []);
+        }
+        if (bookingsRes.ok) {
+          const data = await bookingsRes.json();
+          setBookings(Array.isArray(data) ? data : []);
+        }
       } catch (err) {
         console.error("Failed to fetch data:", err);
       }
