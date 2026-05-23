@@ -57,13 +57,7 @@ const roomUIConfig = {
     type: "Comfortable and Cosy"
   },
   "Self Catering": {
-    images: [
-      asset("self-catering/sc1.jpg"),
-      asset("self-catering/sc2.jpg"),
-      asset("self-catering/sc3.jpg"),
-      asset("self-catering/sc4.jpg"),
-      asset("self-catering/sc5.jpg")
-    ],
+    image: asset("self-catering/sc1.jpg"),
     features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
     type: "Private and Independent"
   },
@@ -156,16 +150,6 @@ const SectionHeading = ({ title, subtitle, light = false }) => (
 
 const RoomCard = ({ room, index, onBook, isOccupied }) => {
   const isEven = index % 2 === 0;
-  const [currentImg, setCurrentImg] = useState(0);
-  
-  useEffect(() => {
-    if (room.images && room.images.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentImg(prev => (prev + 1) % room.images.length);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [room.id, room.images?.length]);
   
   return (
     <motion.div 
@@ -187,18 +171,14 @@ const RoomCard = ({ room, index, onBook, isOccupied }) => {
           transition={{ duration: 0.6 }}
           className="relative aspect-[16/10] md:aspect-[16/11]"
         >
-          <AnimatePresence mode="wait">
-            <motion.img 
-              key={room.images ? room.images[currentImg] : room.image}
-              src={room.images ? room.images[currentImg] : room.image} 
-              alt={room.name} 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="w-full h-full object-cover transition-transform duration-700"
-            />
-          </AnimatePresence>
+          <motion.img 
+            src={room.image} 
+            alt={room.name} 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full h-full object-cover transition-transform duration-700"
+          />
           <div className="absolute inset-0 bg-forest/5 group-hover:bg-transparent transition-colors duration-500" />
         </motion.div>
       </div>
