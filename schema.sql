@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS bookings (
   room_id TEXT NOT NULL,
   check_in TEXT NOT NULL, -- Format: YYYY-MM-DD
   check_out TEXT NOT NULL, -- Format: YYYY-MM-DD
-  status TEXT DEFAULT 'confirmed',
-  FOREIGN KEY (room_id) REFERENCES rooms(id)
+  status TEXT DEFAULT 'confirmed'
 );
 
 -- Initial Room Data
