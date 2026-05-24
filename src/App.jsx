@@ -418,7 +418,8 @@ export default function App() {
 
     // 1. Automatically save to D1 Database
     try {
-      await fetch('/api/create-booking', {
+      console.log('Attempting to save booking:', { room_id: formData.room, check_in: checkInStr, check_out: checkOutStr });
+      const saveResponse = await fetch('/api/create-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -427,6 +428,12 @@ export default function App() {
           check_out: checkOutStr
         })
       });
+      const saveData = await saveResponse.json();
+      console.log('Booking save response:', saveResponse.status, saveData);
+      
+      if (!saveResponse.ok) {
+        console.error('Failed to save booking:', saveData);
+      }
       
       // Refresh local bookings state to show the update immediately
       const response = await fetch('/api/bookings');
