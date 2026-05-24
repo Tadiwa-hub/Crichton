@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, animate, AnimatePresence, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
+import { motion, animate, AnimatePresence, useScroll, useTransform, useInView, useMotionValue } from 'framer-motion';
 import { 
   Home, 
   Bed, 
@@ -18,9 +18,7 @@ import {
   MessageCircle,
   Menu,
   X,
-  ChevronRight,
-  User,
-  Users
+  ChevronRight
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -76,7 +74,7 @@ const WhatsAppIcon = ({ className }) => (
 
 // --- Components ---
 
-const CalendarInput = React.forwardRef(({ value, onClick, startDate, endDate }, ref) => (
+const CalendarInput = React.forwardRef(({ onClick, startDate, endDate }, ref) => (
   <button
     type="button"
     onClick={onClick}
@@ -148,7 +146,7 @@ const SectionHeading = ({ title, subtitle, light = false }) => (
   </div>
 );
 
-const RoomCard = ({ room, index, onBook, isOccupied }) => {
+const RoomCard = ({ room, index, onBook }) => {
   const isEven = index % 2 === 0;
   
   return (
@@ -277,6 +275,15 @@ export default function App() {
   });
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const [dustParticles] = useState(() => 
+    [...Array(20)].map(() => ({
+      x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
+      y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
+      duration: 5 + Math.random() * 5,
+      yOffset: Math.random() * -100
+    }))
+  );
 
   const rooms = (dbRooms || []).map(room => {
     // Normalize ID for robust matching
@@ -599,21 +606,21 @@ export default function App() {
 
         {/* Floating Dust Particles */}
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+          {dustParticles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-gold/30 rounded-full"
               initial={{ 
-                x: Math.random() * window.innerWidth, 
-                y: Math.random() * window.innerHeight,
+                x: p.x, 
+                y: p.y,
                 opacity: 0 
               }}
               animate={{ 
-                y: [null, Math.random() * -100],
+                y: [null, p.yOffset],
                 opacity: [0, 0.5, 0]
               }}
               transition={{ 
-                duration: 5 + Math.random() * 5, 
+                duration: p.duration, 
                 repeat: Infinity,
                 ease: "linear"
               }}
