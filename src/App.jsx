@@ -37,37 +37,32 @@ const asset = (path) => `${baseUrl}${path}`;
 
 const roomUIConfig = {
   "Sanyati": {
-    image: asset("sanyati/room.jpg"),
+    image: "/sanyati/room.jpg",
     features: ["Private ensuite bathroom", "Spacious and warmly appointed", "Executive level comfort"],
     type: "Executive Level Comfort"
   },
   "Pungwe": {
-    image: asset("pungwe/room.jpg"),
+    image: "/pungwe/room.jpg",
     features: ["Private ensuite bathroom", "Comfortable and elegant", "Perfect for solo or couple stays"],
     type: "Perfect for Solo or Couple Stays"
   },
   "Odzi": {
-    image: asset("odzi/room.jpg"),
+    image: "/odzi/room.jpg",
     features: ["Shares bathroom with one other room", "Warmly appointed", "Great value"],
     type: "Warmly Appointed"
   },
   "Gwayi": {
-    image: asset("gwayi/room.jpg"),
+    image: "/gwayi/room.jpg",
     features: ["Shares bathroom with one other room", "Comfortable and cosy", "Great value"],
     type: "Comfortable and Cosy"
   },
   "Self Catering": {
-    image: asset("self-catering/sc1.jpg"),
-    features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
-    type: "Private and Independent"
-  },
-  "self-catering": {
-    image: asset("self-catering/sc1.jpg"),
+    image: "/self-catering/sc1.jpg",
     features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
     type: "Private and Independent"
   },
   "Full House": {
-    image: asset("sanyati/full-house.jpg"),
+    image: "/sanyati/full-house.jpg",
     features: ["Entire property exclusively yours", "Perfect for families or groups", "All amenities included"],
     type: "Exclusively Yours"
   }
@@ -350,20 +345,20 @@ export default function App() {
   ];
 
   const galleryImages = [
-    asset("images/hero.jpg"),
-    asset("images/garden.jpg"),
-    asset("images/lounge.jpg"),
-    asset("images/experience.jpg"),
-    asset("pungwe/room.jpg"),
-    asset("sanyati/room.jpg"),
-    asset("sanyati/full-house.jpg"),
-    asset("gwayi/room.jpg"),
-    asset("odzi/room.jpg"),
-    asset("self-catering/sc1.jpg"),
-    asset("self-catering/sc2.jpg"),
-    asset("self-catering/sc3.jpg"),
-    asset("self-catering/sc4.jpg"),
-    asset("self-catering/sc5.jpg")
+    "/images/hero.jpg",
+    "/images/garden.jpg",
+    "/images/lounge.jpg",
+    "/images/experience.jpg",
+    "/pungwe/room.jpg",
+    "/sanyati/room.jpg",
+    "/sanyati/full-house.jpg",
+    "/gwayi/room.jpg",
+    "/odzi/room.jpg",
+    "/self-catering/sc1.jpg",
+    "/self-catering/sc2.jpg",
+    "/self-catering/sc3.jpg",
+    "/self-catering/sc4.jpg",
+    "/self-catering/sc5.jpg"
   ];
 
   const containerVariants = {
