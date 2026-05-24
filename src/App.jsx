@@ -279,14 +279,21 @@ export default function App() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const rooms = (dbRooms || []).map(room => {
-    // Try exact match first, then try normalized versions
+    // Normalize ID for robust matching
+    const normalizedId = room.id ? room.id.trim().toLowerCase() : "";
+    
     let config = roomUIConfig[room.id];
-    if (!config && room.id === "self-catering") config = roomUIConfig["Self Catering"];
-    if (!config && room.id === "Self-Catering") config = roomUIConfig["Self Catering"];
+    if (!config && normalizedId.includes("self")) config = roomUIConfig["Self Catering"];
+    if (!config && normalizedId.includes("sanyati")) config = roomUIConfig["Sanyati"];
+    if (!config && normalizedId.includes("pungwe")) config = roomUIConfig["Pungwe"];
+    if (!config && normalizedId.includes("odzi")) config = roomUIConfig["Odzi"];
+    if (!config && normalizedId.includes("gwayi")) config = roomUIConfig["Gwayi"];
+    if (!config && normalizedId.includes("full")) config = roomUIConfig["Full House"];
     
     return {
       ...room,
-      price: room.id === "Sanyati" ? "65" : room.id === "Pungwe" ? "55" : room.id === "Self Catering" || room.id === "self-catering" ? "50" : room.id === "Full House" ? "160" : "45",
+      price: normalizedId.includes("sanyati") ? "65" : normalizedId.includes("pungwe") ? "55" : normalizedId.includes("self") ? "50" : normalizedId.includes("full") ? "160" : "45",
+      image: config?.image || "/sanyati/room.jpg", // Ultimate fallback
       ...(config || {})
     };
   });
