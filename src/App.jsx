@@ -243,6 +243,8 @@ export default function App() {
         }
         if (bookingsRes.ok) {
           const data = await bookingsRes.json();
+          console.log('All Bookings from API:', data);
+          data.forEach(b => console.log(`  - Room: "${b.room_id}" | Check-in: ${b.check_in} | Check-out: ${b.check_out}`));
           setBookings(Array.isArray(data) ? data : []);
         }
       } catch (err) {
