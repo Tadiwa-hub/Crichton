@@ -947,7 +947,19 @@ export default function App() {
                     minDate={new Date()}
                     excludeDateIntervals={
                       (() => {
-                        const filtered = bookings.filter(b => b.room_id === formData.room);
+                        let filtered = bookings.filter(b => b.room_id === formData.room);
+                        
+                        // If booking Full House, block all individual room bookings too
+                        if (formData.room === 'Full House') {
+                          const allRoomBookings = bookings.filter(b => b.room_id !== 'Full House');
+                          filtered = [...filtered, ...allRoomBookings];
+                        }
+                        // If booking individual room, also block Full House bookings
+                        else if (formData.room !== 'Self Catering') {
+                          const fullHouseBookings = bookings.filter(b => b.room_id === 'Full House');
+                          filtered = [...filtered, ...fullHouseBookings];
+                        }
+                        
                         console.log('Calendar filter - formData.room:', formData.room, 'Matching bookings:', filtered);
                         return filtered.map(b => ({
                           start: parseISO(b.check_in),
@@ -1003,7 +1015,7 @@ export default function App() {
               
               <div className="md:col-span-2 flex flex-col items-center gap-6 md:gap-10 mt-8 md:mt-12">
                 <div className="flex flex-col md:flex-row gap-4 md:gap-12 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-ivory/40 font-medium text-center">
-                  <span>Check-in: 2:00 PM</span>
+                  <span>Check-in: 3:00 PM</span>
                   <span>Check-out: 10:00 AM</span>
                 </div>
                 
@@ -1189,7 +1201,7 @@ export default function App() {
           <div className="flex gap-8 mb-16 text-[10px] uppercase tracking-widest font-medium opacity-40">
             <span>Marlborough, Harare</span>
             <span>|</span>
-            <span>Check-in: 2:00 PM</span>
+            <span>Check-in: 3:00 PM</span>
             <span>|</span>
             <span>Check-out: 10:00 AM</span>
           </div>
