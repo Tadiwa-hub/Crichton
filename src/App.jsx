@@ -937,12 +937,14 @@ export default function App() {
                     selectsRange
                     minDate={new Date()}
                     excludeDateIntervals={
-                      bookings
-                        .filter(b => b.room_id === formData.room)
-                        .map(b => ({
+                      (() => {
+                        const filtered = bookings.filter(b => b.room_id === formData.room);
+                        console.log('Calendar filter - formData.room:', formData.room, 'Matching bookings:', filtered);
+                        return filtered.map(b => ({
                           start: parseISO(b.check_in),
                           end: parseISO(b.check_out)
-                        }))
+                        }));
+                      })()
                     }
                     ref={datePickerRef}
                     customInput={
