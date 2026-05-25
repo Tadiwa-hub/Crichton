@@ -343,18 +343,28 @@ export default function App() {
 
   const testimonials = [
     {
-      text: "A truly wonderful stay. The garden is a piece of paradise in the city. The staff went above and beyond.",
-      author: "Sarah M.",
-      location: "United Kingdom"
+      text: "I had a great stay and you were so understanding that's why I chose you again. Remember the room we said we are coming back to how much is that one ?",
+      author: "Darren M.",
+      location: "Zimbabwe"
     },
     {
-      text: "The games lounge is fantastic! Best snooker table I've played on in ages. Highly recommend the full house for groups.",
-      author: "David T.",
-      location: "South Africa"
+      text: "I loved the stay and we are coming back again. You went out if your way to help us feel comfortable and your hospitality is top notch. The home itself is cozy. And to that I say thank you.",
+      author: "Brendon N.",
+      location: "Zimbabwe"
     },
     {
-      text: "Clean, elegant, and peaceful. It really felt like a home away from home. I'll definitely be back.",
-      author: "Tendai C.",
+      text: "We truly had a wonderful stay at your lodge. The hospitality, comfort, and overall atmosphere were excellent, and we really enjoyed our time there. Thank you again for making our stay memorable. We'll definitely recommend your lodge to others and would love to visit again in the future.",
+      author: "Raising L.",
+      location: "Zimbabwe"
+    },
+    {
+      text: "I wanted to take a moment to express my heartfelt thanks for the warm hospitality you showed us during our recent stay at your beautiful BNB in Harare. The kids and I had an amazing time, and we truly felt at home. I'd be more than happy to recommend your place to colleagues and friends looking for accommodation in Harare. Your BNB is lovely, and I'm sure they'll appreciate the care and attention you put into making guests feel welcome. Thank you again for making our stay so special. I'll be sure to spread the word!",
+      author: "W.S. Academy",
+      location: "Harare"
+    },
+    {
+      text: "Great spot for a family vacation. A clean place even the rooms, they are well kept. A quite and peaceful place. The bed was comfortable. The host was friendly and responsive. The Wifi was good. We were given good food, it was well good. I enjoyed the stay.",
+      author: "The Mlauzi's",
       location: "Zimbabwe"
     }
   ];
@@ -977,7 +987,7 @@ export default function App() {
                   value={formData.guests}
                   onChange={(e) => setFormData({...formData, guests: e.target.value})}
                 >
-                  {[1,2,3,4,5,6,7,8].map(n => <option key={n} value={n} className="bg-forest">{n}</option>)}
+                  {[1,2].map(n => <option key={n} value={n} className="bg-forest">{n}</option>)}
                 </select>
               </div>
               <div className="space-y-3">
