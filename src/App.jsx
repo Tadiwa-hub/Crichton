@@ -435,13 +435,6 @@ export default function App() {
           setBookings(data);
         }
       }
-      
-      // Refresh local bookings state to show the update immediately
-      const response = await fetch('/api/bookings');
-      if (response.ok) {
-        const data = await response.json();
-        setBookings(data);
-      }
     } catch (err) {
       console.error("Failed to auto-save booking:", err);
     }
