@@ -18,7 +18,8 @@ import {
   MessageCircle,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  Wine
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -243,8 +244,6 @@ export default function App() {
         }
         if (bookingsRes.ok) {
           const data = await bookingsRes.json();
-          console.log('All Bookings from API:', data);
-          data.forEach(b => console.log(`  - Room: "${b.room_id}" | Check-in: ${b.check_in} | Check-out: ${b.check_out}`));
           setBookings(Array.isArray(data) ? data : []);
         }
       } catch (err) {
@@ -337,7 +336,7 @@ export default function App() {
     { icon: <div className="font-bold text-lg">🎱</div>, label: "Games Lounge (Pool & Snooker)" },
     { icon: <Coffee className="w-6 h-6" />, label: "Two Comfortable Lounges" },
     { icon: <Utensils className="w-6 h-6" />, label: "Fully Equipped Kitchen" },
-    { icon: <Utensils className="w-6 h-6" />, label: "Optional Breakfast & Light Meals" },
+    { icon: <Wine className="w-6 h-6" />, label: "Optional Breakfast & Light Meals" },
     { icon: <Star className="w-6 h-6" />, label: "Personalised Service" },
     { icon: <MapPin className="w-6 h-6" />, label: "Marlborough, Harare" },
   ];
@@ -418,7 +417,6 @@ export default function App() {
 
     // 1. Automatically save to D1 Database
     try {
-      console.log('Attempting to save booking:', { room_id: formData.room, check_in: checkInStr, check_out: checkOutStr });
       const saveResponse = await fetch('/api/create-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -428,11 +426,14 @@ export default function App() {
           check_out: checkOutStr
         })
       });
-      const saveData = await saveResponse.json();
-      console.log('Booking save response:', saveResponse.status, saveData);
       
-      if (!saveResponse.ok) {
-        console.error('Failed to save booking:', saveData);
+      if (saveResponse.ok) {
+        // Refresh local bookings state to show the update immediately
+        const response = await fetch('/api/bookings');
+        if (response.ok) {
+          const data = await response.json();
+          setBookings(data);
+        }
       }
       
       // Refresh local bookings state to show the update immediately
@@ -960,7 +961,6 @@ export default function App() {
                           filtered = [...filtered, ...fullHouseBookings];
                         }
                         
-                        console.log('Calendar filter - formData.room:', formData.room, 'Matching bookings:', filtered);
                         return filtered.map(b => ({
                           start: parseISO(b.check_in),
                           end: parseISO(b.check_out)
