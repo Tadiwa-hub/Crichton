@@ -277,6 +277,37 @@ export default function App() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
+  // Periodic booking refresh to catch deletions from admin panel
+  useEffect(() => {
+    const refreshBookings = async () => {
+      try {
+        const response = await fetch('/api/bookings');
+        if (response.ok) {
+          const data = await response.json();
+          setBookings(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        console.error("Failed to refresh bookings:", err);
+      }
+    };
+
+    // Refresh every 30 seconds
+    const interval = setInterval(refreshBookings, 30000);
+
+    // Also refresh when user returns to tab
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        refreshBookings();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   const [dustParticles] = useState(() => 
     [...Array(20)].map(() => ({
       x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
