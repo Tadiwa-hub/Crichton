@@ -464,7 +464,14 @@ export default function App() {
         body: JSON.stringify({
           room_id: formData.room,
           check_in: checkInStr,
-          check_out: checkOutStr
+          check_out: checkOutStr,
+          guest_name: formData.name,
+          guest_email: formData.email,
+          guest_phone: formData.phone,
+          location: formData.location,
+          guests_count: parseInt(formData.guests),
+          source: formData.source,
+          special_requests: formData.requests
         })
       });
       

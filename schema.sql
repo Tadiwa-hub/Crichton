@@ -10,6 +10,13 @@ CREATE TABLE IF NOT EXISTS bookings (
   room_id TEXT NOT NULL,
   check_in TEXT NOT NULL, -- Format: YYYY-MM-DD
   check_out TEXT NOT NULL, -- Format: YYYY-MM-DD
+  guest_name TEXT,
+  guest_email TEXT,
+  guest_phone TEXT,
+  location TEXT,
+  guests_count INTEGER DEFAULT 1,
+  source TEXT,
+  special_requests TEXT,
   status TEXT DEFAULT 'confirmed'
 );
 

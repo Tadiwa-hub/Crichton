@@ -5,9 +5,9 @@ export async function onRequest(context) {
   // Handle GET request
   if (request.method === 'GET') {
     try {
-      // Fetch all confirmed bookings from D1 (including ID for calendar blocking)
+      // Fetch all confirmed bookings from D1 (including all guest details)
       const { results } = await env.DB.prepare(
-        "SELECT id, room_id, check_in, check_out FROM bookings WHERE status = 'confirmed' ORDER BY check_in ASC"
+        "SELECT * FROM bookings WHERE status = 'confirmed' ORDER BY check_in ASC"
       ).all();
 
       return new Response(JSON.stringify(results), {
