@@ -56,6 +56,7 @@ const roomUIConfig = {
     type: "Comfortable and Cosy"
   },
   "Self Catering": {
+    name: "Save",
     image: "/self-catering/sc1.jpg",
     features: [
       "Fully self-catering kitchen",
@@ -67,7 +68,7 @@ const roomUIConfig = {
       "Ideal for weekly and monthly guests",
       "Separate entrance"
     ],
-    type: "SELF-CATERING GARDEN COTTAGE",
+    type: "SAVE - GARDEN COTTAGE",
     isSpecial: true,
     specialHeading: "Your Private Garden Retreat",
     specialTagline: "The smarter choice for extended stays. All the comfort of home. None of the cost."
@@ -805,7 +806,7 @@ export default function App() {
           <StatItem value={5} label="Bedrooms" />
           <StatItem value={2} label="Lounges" />
           <StatItem value={1} label="Games Lounge" />
-          <StatItem value={1} label="Garden Cottage" />
+          <StatItem value={1} label="Save" />
           <StatItem value={0} label="Commission" suffix="%" />
         </div>
       </section>
@@ -851,10 +852,10 @@ export default function App() {
       <section id="extended-stays" className="py-32 bg-sage-light overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
-            <p className="text-gold font-bold tracking-[0.3em] uppercase text-[11px] mb-4">EXTENDED STAYS & SELF-CATERING</p>
+            <p className="text-gold font-bold tracking-[0.3em] uppercase text-[11px] mb-4">EXTENDED STAYS & SAVE</p>
             <h2 className="text-4xl md:text-6xl font-cormorant text-forest mb-6">Make Crichton Cottage Your Home Base</h2>
             <p className="max-w-2xl mx-auto text-forest/70 text-lg font-inter leading-relaxed">
-              Whether you're in Harare for a week on business or a month between homes, our self-catering Garden Cottage gives you the space, privacy and independence you need — at a fraction of hotel costs.
+              Whether you're in Harare for a week on business or a month between homes, our self-catering Save Garden Cottage gives you the space, privacy and independence you need — at a fraction of hotel costs.
             </p>
           </div>
 
@@ -1153,7 +1154,7 @@ export default function App() {
                   <option className="bg-forest" value="Pungwe">Pungwe ~ Standard Ensuite</option>
                   <option className="bg-forest" value="Odzi">Odzi ~ Shared Bathroom</option>
                   <option className="bg-forest" value="Gwayi">Gwayi ~ Shared Bathroom</option>
-                  <option className="bg-forest" value="Self Catering">Self Catering ~ Garden Cottage</option>
+                  <option className="bg-forest" value="Self Catering">Save ~ Garden Cottage</option>
                   <option className="bg-forest" value="Full House">Full House ~ All Four Rooms</option>
                 </select>
               </div>
