@@ -210,7 +210,7 @@ const RoomCard = ({ room, index, onBook }) => {
           <p className="text-forest/60 font-lora italic text-sm md:text-base mb-6">{room.specialTagline}</p>
           
           <div className="mb-6 p-4 bg-white/40 rounded-lg border border-gold/10">
-            <p className="text-2xl font-cormorant text-forest mb-1">From $45/night</p>
+            <p className="text-2xl font-cormorant text-forest mb-1">From $50/night</p>
             <div className="space-y-1">
               <p className="text-xs text-forest/60">Stay 7 nights → Save vs hotels</p>
               <p className="text-xs text-forest/60">Stay 30 nights → Ask about our monthly rate</p>
@@ -913,7 +913,7 @@ export default function App() {
                   <tr className="border-b border-gold/5">
                     <td className="p-5 text-forest font-medium">7 nights</td>
                     <td className="p-5 text-forest/60 text-center">~$700</td>
-                    <td className="p-5 text-forest text-center font-bold">From $315</td>
+                    <td className="p-5 text-forest text-center font-bold">From $350</td>
                   </tr>
                   <tr className="border-b border-gold/5">
                     <td className="p-5 text-forest font-medium">Kitchen access</td>
