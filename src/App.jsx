@@ -58,15 +58,18 @@ const roomUIConfig = {
   "Self Catering": {
     name: "Save",
     image: "/self-catering/sc1.jpg",
+    gallery: [
+      "/self-catering/Kitchen.jpeg",
+      "/self-catering/Bathroom.jpg",
+      "/self-catering/Toilet.jpeg"
+    ],
     features: [
       "Fully self-catering kitchen",
-      "Private garden access",
       "Complete independence and privacy",
       "High-speed fibre WiFi",
       "All utilities included",
       "Perfect for 2-night minimum stays",
-      "Ideal for weekly and monthly guests",
-      "Separate entrance"
+      "Ideal for weekly and monthly guests"
     ],
     type: "SAVE - GARDEN COTTAGE",
     isSpecial: true,
@@ -175,15 +178,26 @@ const RoomCard = ({ room, index, onBook }) => {
         }}
         className="w-full flex flex-col md:flex-row items-stretch mb-12 bg-sage rounded-xl border-l-4 border-gold shadow-lg overflow-hidden"
       >
-        <div className="w-full md:w-1/2 relative min-h-[300px]">
-          <img 
-            src={room.image} 
-            alt={room.name} 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-4 right-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md">
-            Best for Long Stays
+        <div className="w-full md:w-1/2 relative flex flex-col gap-1 p-1 bg-white/20">
+          <div className="flex-grow relative overflow-hidden rounded-lg">
+            <img 
+              src={room.image} 
+              alt={room.name} 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-4 right-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md z-10">
+              Best for Long Stays
+            </div>
           </div>
+          {room.gallery && (
+            <div className="grid grid-cols-3 gap-1 h-24 md:h-32">
+              {room.gallery.map((img, i) => (
+                <div key={i} className="overflow-hidden rounded-md border border-gold/10">
+                  <img src={img} alt={`${room.name} gallery ${i}`} className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         
         <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
