@@ -57,8 +57,20 @@ const roomUIConfig = {
   },
   "Self Catering": {
     image: "/self-catering/sc1.jpg",
-    features: ["Fully equipped kitchenette", "Private entrance", "Beautiful garden views", "Perfect for long stays"],
-    type: "Private and Independent"
+    features: [
+      "Fully self-catering kitchen",
+      "Private garden access",
+      "Complete independence and privacy",
+      "High-speed fibre WiFi",
+      "All utilities included",
+      "Perfect for 2-night minimum stays",
+      "Ideal for weekly and monthly guests",
+      "Separate entrance"
+    ],
+    type: "SELF-CATERING GARDEN COTTAGE",
+    isSpecial: true,
+    specialHeading: "Your Private Garden Retreat",
+    specialTagline: "The smarter choice for extended stays. All the comfort of home. None of the cost."
   },
   "Full House": {
     image: "/sanyati/full-house.jpg",
@@ -150,6 +162,73 @@ const SectionHeading = ({ title, subtitle, light = false }) => (
 const RoomCard = ({ room, index, onBook }) => {
   const isEven = index % 2 === 0;
   
+  if (room.isSpecial) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ 
+          duration: 0.6, 
+          ease: [0.215, 0.61, 0.355, 1],
+        }}
+        className="w-full flex flex-col md:flex-row items-stretch mb-12 bg-sage rounded-xl border-l-4 border-gold shadow-lg overflow-hidden"
+      >
+        <div className="w-full md:w-1/2 relative min-h-[300px]">
+          <img 
+            src={room.image} 
+            alt={room.name} 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-4 right-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md">
+            Best for Long Stays
+          </div>
+        </div>
+        
+        <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
+          <p className="text-gold font-bold tracking-[0.2em] uppercase text-[11px] mb-2">{room.type}</p>
+          <h3 className="text-3xl md:text-4xl font-cormorant text-forest mb-2">{room.specialHeading}</h3>
+          <p className="text-forest/60 font-lora italic text-sm md:text-base mb-6">{room.specialTagline}</p>
+          
+          <div className="mb-6 p-4 bg-white/40 rounded-lg border border-gold/10">
+            <p className="text-2xl font-cormorant text-forest mb-1">From $45/night</p>
+            <div className="space-y-1">
+              <p className="text-xs text-forest/60">Stay 7 nights → Save vs hotels</p>
+              <p className="text-xs text-forest/60">Stay 30 nights → Ask about our monthly rate</p>
+            </div>
+            <p className="text-[10px] text-gold mt-2 italic font-medium">Long stay discounts available. Contact us for weekly and monthly rates.</p>
+          </div>
+          
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 mb-8">
+            {(room.features || []).map((feature, i) => (
+              <li key={i} className="flex items-start gap-2 text-forest/80 font-inter text-xs">
+                <CheckCircle2 className="w-4 h-4 text-gold shrink-0 mt-0.5" />
+                {feature}
+              </li>
+            ))}
+          </ul>
+          
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button 
+              onClick={() => onBook(room.id)} 
+              className="btn-primary bg-gold hover:bg-gold-light text-white text-xs py-3 px-6 border-none"
+            >
+              Book Garden Cottage
+            </button>
+            <a 
+              href={`https://wa.me/263717089945?text=${encodeURIComponent("Hi! I'm interested in the Garden Cottage at Crichton Cottage for an extended stay. Could you share your weekly/monthly rates?")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold border-gold text-gold text-xs py-3 px-6 text-center"
+            >
+              Ask About Monthly Rates
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 100 }}
@@ -536,10 +615,10 @@ export default function App() {
           </div>
 
           <div className="hidden md:flex items-center gap-12 text-sm font-medium tracking-widest uppercase">
-            {['Home', 'Rooms', 'Amenities', 'Experience', 'Contact'].map((item) => (
+            {['Home', 'Rooms', 'Extended Stays', 'Amenities', 'Experience', 'Contact'].map((item) => (
               <a 
                 key={item} 
-                href={`#${item.toLowerCase()}`}
+                href={`#${item.toLowerCase().replace(' ', '-')}`}
                 className={cn(
                   "relative group transition-colors duration-500",
                   isScrolled ? "text-forest/80 hover:text-forest" : "text-ivory/80 hover:text-ivory"
@@ -742,14 +821,119 @@ export default function App() {
             </div>
             
             {rooms.map((room, index) => (
-              <RoomCard 
-                key={index} 
-                room={room} 
-                index={index} 
-                onBook={selectRoom} 
-                isOccupied={isRoomOccupied(room.id)}
-              />
+              <React.Fragment key={index}>
+                {room.isSpecial && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col items-center mb-16"
+                  >
+                    <div className="h-[1px] w-32 bg-gold/20 mb-8" />
+                    <p className="text-forest font-cormorant italic text-2xl mb-1 text-center">Looking for a longer stay?</p>
+                    <p className="text-forest/60 font-cormorant italic text-lg text-center">Seeking more independence?</p>
+                    <div className="h-[1px] w-32 bg-gold/20 mt-8" />
+                  </motion.div>
+                )}
+                <RoomCard 
+                  room={room} 
+                  index={index} 
+                  onBook={selectRoom} 
+                  isOccupied={isRoomOccupied(room.id)}
+                />
+              </React.Fragment>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Extended Stays Section */}
+      <section id="extended-stays" className="py-32 bg-sage-light overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-gold font-bold tracking-[0.3em] uppercase text-[11px] mb-4">EXTENDED STAYS & SELF-CATERING</p>
+            <h2 className="text-4xl md:text-6xl font-cormorant text-forest mb-6">Make Crichton Cottage Your Home Base</h2>
+            <p className="max-w-2xl mx-auto text-forest/70 text-lg font-inter leading-relaxed">
+              Whether you're in Harare for a week on business or a month between homes, our self-catering Garden Cottage gives you the space, privacy and independence you need — at a fraction of hotel costs.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
+            {[
+              { icon: "🏡", title: "Feel at Home", text: "Full kitchen, your own space and total privacy for the duration of your stay." },
+              { icon: "💰", title: "Smarter Spend", text: "Enjoy significantly better rates the longer you stay. The smart choice for assignments." },
+              { icon: "🌿", title: "Private Garden", text: "Your own outdoor space away from other guests. Relax in your personal sanctuary." }
+            ].map((benefit, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white p-10 rounded-2xl shadow-sm border border-gold/5 flex flex-col items-center text-center group hover:shadow-md transition-all duration-300"
+              >
+                <div className="text-4xl mb-6 grayscale group-hover:grayscale-0 transition-all">{benefit.icon}</div>
+                <h4 className="text-xl font-cormorant text-forest font-bold mb-4 uppercase tracking-widest">{benefit.title}</h4>
+                <p className="text-forest/60 text-sm leading-relaxed">{benefit.text}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Comparison Table */}
+          <div className="max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-lg border border-gold/10 mb-20">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left bg-white border-collapse">
+                <thead>
+                  <tr className="bg-forest text-white">
+                    <th className="p-5 font-cormorant text-lg">Value Comparison</th>
+                    <th className="p-5 font-cormorant text-lg text-center">Hotel (avg)</th>
+                    <th className="p-5 font-cormorant text-lg text-center bg-gold">Garden Cottage</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm font-inter">
+                  <tr className="border-b border-gold/5">
+                    <td className="p-5 text-forest font-medium">7 nights</td>
+                    <td className="p-5 text-forest/60 text-center">~$700</td>
+                    <td className="p-5 text-forest text-center font-bold">From $315</td>
+                  </tr>
+                  <tr className="border-b border-gold/5">
+                    <td className="p-5 text-forest font-medium">Kitchen access</td>
+                    <td className="p-5 text-forest/60 text-center">Extra</td>
+                    <td className="p-5 text-forest text-center"><CheckCircle2 className="w-5 h-5 text-gold mx-auto" /></td>
+                  </tr>
+                  <tr className="border-b border-gold/5">
+                    <td className="p-5 text-forest font-medium">Privacy</td>
+                    <td className="p-5 text-forest/60 text-center">Limited</td>
+                    <td className="p-5 text-forest text-center"><CheckCircle2 className="w-5 h-5 text-gold mx-auto" /></td>
+                  </tr>
+                  <tr className="border-b border-gold/5">
+                    <td className="p-5 text-forest font-medium">Home feeling</td>
+                    <td className="p-5 text-red-400/60 text-center">❌</td>
+                    <td className="p-5 text-forest text-center"><CheckCircle2 className="w-5 h-5 text-gold mx-auto" /></td>
+                  </tr>
+                  <tr>
+                    <td className="p-5 text-forest font-medium">Monthly rates</td>
+                    <td className="p-5 text-red-400/60 text-center">❌</td>
+                    <td className="p-5 text-forest text-center font-bold">✅ Ask us</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="p-4 bg-sage text-[10px] text-forest/40 text-center italic">
+              Hotel comparison based on average Harare 3-star rates. Rates subject to availability.
+            </div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-forest/60 italic font-cormorant text-xl mb-8">"Why pay hotel prices when you can have more space, a full kitchen and a private garden for less?"</p>
+            <a 
+              href={`https://wa.me/263717089945?text=${encodeURIComponent("Hi! I'm interested in enquiring about the Garden Cottage at Crichton Cottage for an extended stay.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block btn-gold bg-gold text-white px-12 py-5 border-none shadow-xl hover:shadow-gold/30"
+            >
+              Enquire About The Garden Cottage
+            </a>
           </div>
         </div>
       </section>
@@ -1302,10 +1486,10 @@ export default function App() {
               <X className="w-10 h-10" />
             </button>
             <div className="flex flex-col gap-8 text-center">
-              {['Home', 'Rooms', 'Amenities', 'Experience', 'Contact'].map((item) => (
+              {['Home', 'Rooms', 'Extended Stays', 'Amenities', 'Experience', 'Contact'].map((item) => (
                 <a 
                   key={item} 
-                  href={`#${item.toLowerCase()}`} 
+                  href={`#${item.toLowerCase().replace(' ', '-')}`} 
                   className="text-4xl font-cormorant text-ivory hover:text-gold transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
