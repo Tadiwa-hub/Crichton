@@ -181,7 +181,7 @@ const RoomCard = ({ room, index, onBook }) => {
         <div className="w-full md:w-1/2 relative flex flex-col gap-1 p-1 bg-white/20">
           <div className="flex-grow relative overflow-hidden rounded-lg">
             <img 
-              src={room.image} 
+              src={asset(room.image.startsWith('/') ? room.image.slice(1) : room.image)} 
               alt={room.name} 
               className="w-full h-full object-cover"
             />
@@ -193,7 +193,11 @@ const RoomCard = ({ room, index, onBook }) => {
             <div className="grid grid-cols-3 gap-1 h-24 md:h-32">
               {room.gallery.map((img, i) => (
                 <div key={i} className="overflow-hidden rounded-md border border-gold/10">
-                  <img src={img} alt={`${room.name} gallery ${i}`} className="w-full h-full object-cover" />
+                  <img 
+                    src={asset(img.startsWith('/') ? img.slice(1) : img)} 
+                    alt={`${room.name} gallery ${i}`} 
+                    className="w-full h-full object-cover" 
+                  />
                 </div>
               ))}
             </div>
@@ -265,7 +269,7 @@ const RoomCard = ({ room, index, onBook }) => {
           className="relative aspect-[16/10] md:aspect-[16/11]"
         >
           <motion.img 
-            src={room.image} 
+            src={asset(room.image.startsWith('/') ? room.image.slice(1) : room.image)} 
             alt={room.name} 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1287,7 +1291,7 @@ export default function App() {
                 className="absolute inset-0"
               >
                 <img 
-                  src={galleryImages[currentGalleryIndex]} 
+                  src={asset(galleryImages[currentGalleryIndex].startsWith('/') ? galleryImages[currentGalleryIndex].slice(1) : galleryImages[currentGalleryIndex])} 
                   alt={`Gallery ${currentGalleryIndex}`} 
                   className="w-full h-full object-cover rounded-3xl shadow-2xl border border-gold/20"
                 />
