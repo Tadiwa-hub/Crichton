@@ -57,11 +57,11 @@ const roomUIConfig = {
   },
   "Self Catering": {
     name: "Save",
-    image: "/self-catering/sc1.jpg",
+    image: "/Save new/WhatsApp Image 2026-05-30 at 15.45.32 (3).jpeg",
     gallery: [
-      "/self-catering/Kitchen.jpeg",
-      "/self-catering/Bathroom.jpg",
-      "/self-catering/Toilet.jpeg"
+      "/Save new/WhatsApp Image 2026-05-30 at 15.45.32.jpeg",
+      "/Save new/WhatsApp Image 2026-05-30 at 15.45.33 (1).jpeg",
+      "/Save new/WhatsApp Image 2026-05-30 at 15.45.32 (1).jpeg"
     ],
     features: [
       "Fully self-catering kitchen",
@@ -508,11 +508,11 @@ export default function App() {
     "/sanyati/full-house.jpg",
     "/gwayi/room.jpg",
     "/odzi/room.jpg",
-    "/self-catering/sc1.jpg",
-    "/self-catering/sc2.jpg",
-    "/self-catering/sc3.jpg",
-    "/self-catering/sc4.jpg",
-    "/self-catering/sc5.jpg"
+    "/Save new/WhatsApp Image 2026-05-30 at 15.45.32 (3).jpeg",
+    "/Save new/WhatsApp Image 2026-05-30 at 15.45.32.jpeg",
+    "/Save new/WhatsApp Image 2026-05-30 at 15.45.33 (1).jpeg",
+    "/Save new/WhatsApp Image 2026-05-30 at 15.45.32 (1).jpeg",
+    "/Save new/WhatsApp Image 2026-05-30 at 15.45.32 (2).jpeg"
   ];
 
   const containerVariants = {
