@@ -80,6 +80,27 @@ const roomUIConfig = {
     image: "/sanyati/full-house.jpg",
     features: ["Entire property exclusively yours", "Perfect for families or groups", "All amenities included"],
     type: "Exclusively Yours"
+  },
+  "Full House Complete": {
+    name: "Entire Estate",
+    image: "/Save new/WhatsApp Image 2026-05-30 at 15.45.33 (1).jpeg",
+    gallery: [
+      "/sanyati/room.jpg",
+      "/odzi/WhatsApp Image 2026-05-23 at 09.48.05.jpeg",
+      "/gwayi/room.jpg"
+    ],
+    features: [
+      "All 5 bedrooms (Includes Garden Cottage)",
+      "Exclusive access to entire property & gardens",
+      "Both full kitchens (Main + Self Catering)",
+      "High-speed fibre WiFi throughout",
+      "Perfect for up to 10+ guests",
+      "Reliable power & water backup"
+    ],
+    type: "ENTIRE ESTATE RETREAT",
+    isSpecial: true,
+    specialHeading: "The Entire Estate — Ultimate Privacy",
+    specialTagline: "Get the complete Crichton Cottage experience. Perfect for group retreats, family reunions, and multi-family stays."
   }
 };
 
@@ -186,7 +207,7 @@ const RoomCard = ({ room, index, onBook }) => {
               className="w-full h-full object-cover"
             />
             <div className="absolute top-4 right-4 bg-gold text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md z-10">
-              Best for Long Stays
+              {room.id === 'Full House Complete' ? 'Premium Group Package' : 'Best for Long Stays'}
             </div>
           </div>
           {room.gallery && (
@@ -210,10 +231,19 @@ const RoomCard = ({ room, index, onBook }) => {
           <p className="text-forest/60 font-lora italic text-sm md:text-base mb-6">{room.specialTagline}</p>
           
           <div className="mb-6 p-4 bg-white/40 rounded-lg border border-gold/10">
-            <p className="text-2xl font-cormorant text-forest mb-1">From $50/night</p>
+            <p className="text-2xl font-cormorant text-forest mb-1">From ${room.id === 'Full House Complete' ? '200' : '50'}/night</p>
             <div className="space-y-1">
-              <p className="text-xs text-forest/60">Stay 7 nights → Save vs hotels</p>
-              <p className="text-xs text-forest/60">Stay 30 nights → Ask about our monthly rate</p>
+              {room.id === 'Full House Complete' ? (
+                <>
+                  <p className="text-xs text-forest/60">Includes all 5 premium bedrooms</p>
+                  <p className="text-xs text-forest/60">Fully exclusive access to all main house spaces & cottage</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-xs text-forest/60">Stay 7 nights → Save vs hotels</p>
+                  <p className="text-xs text-forest/60">Stay 30 nights → Ask about our monthly rate</p>
+                </>
+              )}
             </div>
             <p className="text-[10px] text-gold mt-2 italic font-medium">Long stay discounts available. Contact us for weekly and monthly rates.</p>
           </div>
@@ -232,10 +262,14 @@ const RoomCard = ({ room, index, onBook }) => {
               onClick={() => onBook(room.id)} 
               className="btn-primary bg-gold hover:bg-gold-light text-white text-xs py-3 px-6 border-none"
             >
-              Book Garden Cottage
+              Book {room.id === 'Full House Complete' ? 'Entire Estate' : 'Garden Cottage'}
             </button>
             <a 
-              href={`https://wa.me/263717089945?text=${encodeURIComponent("Hi! I'm interested in the Garden Cottage at Crichton Cottage for an extended stay. Could you share your weekly/monthly rates?")}`}
+              href={`https://wa.me/263717089945?text=${encodeURIComponent(
+                room.id === 'Full House Complete'
+                  ? "Hi! I'm interested in renting the Entire Estate (Full House + Cottage) at Crichton Cottage. Could you share your group/extended rates?"
+                  : "Hi! I'm interested in the Garden Cottage at Crichton Cottage for an extended stay. Could you share your weekly/monthly rates?"
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-gold border-gold text-gold text-xs py-3 px-6 text-center"
@@ -423,13 +457,17 @@ export default function App() {
     if (!config && normalizedId.includes("self")) config = roomUIConfig["Self Catering"];
     if (!config && normalizedId.includes("sanyati")) config = roomUIConfig["Sanyati"];
     if (!config && normalizedId.includes("pungwe")) config = roomUIConfig["Pungwe"];
+    if (!config && normalizedId.includes("self")) config = roomUIConfig["Self Catering"];
+    if (!config && normalizedId.includes("sanyati")) config = roomUIConfig["Sanyati"];
+    if (!config && normalizedId.includes("pungwe")) config = roomUIConfig["Pungwe"];
     if (!config && normalizedId.includes("odzi")) config = roomUIConfig["Odzi"];
     if (!config && normalizedId.includes("gwayi")) config = roomUIConfig["Gwayi"];
+    if (!config && normalizedId.includes("complete")) config = roomUIConfig["Full House Complete"];
     if (!config && normalizedId.includes("full")) config = roomUIConfig["Full House"];
     
     return {
       ...room,
-      price: normalizedId.includes("sanyati") ? "65" : normalizedId.includes("pungwe") ? "55" : normalizedId.includes("self") ? "50" : normalizedId.includes("full") ? "160" : "45",
+      price: normalizedId.includes("sanyati") ? "65" : normalizedId.includes("pungwe") ? "55" : normalizedId.includes("self") ? "50" : normalizedId.includes("complete") ? "200" : normalizedId.includes("full") ? "160" : "45",
       image: config?.image || "/sanyati/room.jpg", // Ultimate fallback
       ...(config || {})
     };
@@ -438,21 +476,28 @@ export default function App() {
   const isRoomOccupied = (roomId) => {
     const today = new Date().toISOString().split('T')[0];
     return (bookings || []).some(b => {
+      // If we are checking the Full House Complete card (Option 2)
+      if (roomId === 'Full House Complete') {
+        // Full House Complete is occupied if ANY room is booked at all
+        return today >= b.check_in && today < b.check_out;
+      }
+
       // If we are checking the Full House card
       if (roomId === 'Full House') {
-        // Full House is occupied if IT is booked OR if ANY room (except Self Catering) is booked
-        return (b.room_id === 'Full House' || (b.room_id !== 'Full House' && b.room_id !== 'Self Catering')) && 
+        // Full House is occupied if IT is booked OR if Full House Complete is booked OR if ANY room (except Self Catering) is booked
+        return (b.room_id === 'Full House' || b.room_id === 'Full House Complete' || (b.room_id !== 'Full House' && b.room_id !== 'Full House Complete' && b.room_id !== 'Self Catering')) && 
                today >= b.check_in && today < b.check_out;
       }
       
       // If we are checking the Self Catering card
       if (roomId === 'Self Catering') {
-        return b.room_id === 'Self Catering' && today >= b.check_in && today < b.check_out;
+        // Self Catering is occupied if IT is booked OR if Full House Complete is booked
+        return (b.room_id === 'Self Catering' || b.room_id === 'Full House Complete') && today >= b.check_in && today < b.check_out;
       }
 
       // If we are checking an individual room (Sanyati, Pungwe, etc.)
-      // It is occupied if IT is booked OR if the Full House is booked
-      return (b.room_id === roomId || b.room_id === 'Full House') && 
+      // It is occupied if IT is booked OR if the Full House is booked OR if Full House Complete is booked
+      return (b.room_id === roomId || b.room_id === 'Full House' || b.room_id === 'Full House Complete') && 
              today >= b.check_in && today < b.check_out;
     });
   };
@@ -1174,6 +1219,7 @@ export default function App() {
                   <option className="bg-forest" value="Gwayi">Gwayi ~ Shared Bathroom</option>
                   <option className="bg-forest" value="Self Catering">Save ~ Garden Cottage</option>
                   <option className="bg-forest" value="Full House">Full House ~ All Four Rooms</option>
+                  <option className="bg-forest" value="Full House Complete">Full House + Cottage ~ All Five Rooms</option>
                 </select>
               </div>
               <div className="md:col-span-2 space-y-3">
@@ -1192,17 +1238,30 @@ export default function App() {
                     minDate={new Date()}
                     excludeDateIntervals={
                       (() => {
-                        let filtered = bookings.filter(b => b.room_id === formData.room);
-                        
-                        // If booking Full House, block all individual room bookings too
-                        if (formData.room === 'Full House') {
-                          const allRoomBookings = bookings.filter(b => b.room_id !== 'Full House');
-                          filtered = [...filtered, ...allRoomBookings];
-                        }
-                        // If booking individual room, also block Full House bookings
-                        else if (formData.room !== 'Self Catering') {
-                          const fullHouseBookings = bookings.filter(b => b.room_id === 'Full House');
-                          filtered = [...filtered, ...fullHouseBookings];
+                        let filtered = [];
+                        if (formData.room === 'Full House Complete') {
+                          // Block any dates where literally any booking exists
+                          filtered = bookings;
+                        } else if (formData.room === 'Full House') {
+                          // Block if Full House itself, Full House Complete, or any individual room is booked
+                          filtered = bookings.filter(b => 
+                            b.room_id === 'Full House' || 
+                            b.room_id === 'Full House Complete' || 
+                            (b.room_id !== 'Full House' && b.room_id !== 'Full House Complete' && b.room_id !== 'Self Catering')
+                          );
+                        } else if (formData.room === 'Self Catering') {
+                          // Block if Self Catering itself or Full House Complete is booked
+                          filtered = bookings.filter(b => 
+                            b.room_id === 'Self Catering' || 
+                            b.room_id === 'Full House Complete'
+                          );
+                        } else {
+                          // Individual rooms: block if the room itself, Full House Standard, or Full House Complete is booked
+                          filtered = bookings.filter(b => 
+                            b.room_id === formData.room || 
+                            b.room_id === 'Full House' || 
+                            b.room_id === 'Full House Complete'
+                          );
                         }
                         
                         return filtered.map(b => ({

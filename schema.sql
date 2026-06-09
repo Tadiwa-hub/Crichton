@@ -27,3 +27,4 @@ INSERT OR IGNORE INTO rooms (id, name) VALUES ('Odzi', 'ODZI ~ Shared Bathroom')
 INSERT OR IGNORE INTO rooms (id, name) VALUES ('Gwayi', 'GWAYI ~ Shared Bathroom');
 INSERT OR IGNORE INTO rooms (id, name) VALUES ('Self Catering', 'SELF CATERING ~ Garden Cottage');
 INSERT OR IGNORE INTO rooms (id, name) VALUES ('Full House', 'FULL HOUSE ~ All Four Rooms');
+INSERT OR IGNORE INTO rooms (id, name) VALUES ('Full House Complete', 'FULL HOUSE + COTTAGE ~ All Five Rooms');

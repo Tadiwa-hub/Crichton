@@ -28,13 +28,17 @@ export async function onRequestPost(context) {
     const conflictingBookings = await env.DB.prepare(
       `SELECT * FROM bookings 
        WHERE status = 'confirmed' 
+       AND check_in < ? 
+       AND check_out > ? 
        AND (
-         (room_id = ? AND check_in < ? AND check_out > ?)
-         OR (room_id = 'Full House' AND ? NOT IN ('Self Catering', 'Full House') AND check_in < ? AND check_out > ?)
-         OR (? = 'Full House' AND room_id != 'Self Catering' AND room_id != 'Full House' AND check_in < ? AND check_out > ?)
+         room_id = ?
+         OR ? = 'Full House Complete'
+         OR room_id = 'Full House Complete'
+         OR (? = 'Full House' AND room_id NOT IN ('Self Catering', 'Full House', 'Full House Complete'))
+         OR (room_id = 'Full House' AND ? NOT IN ('Self Catering', 'Full House', 'Full House Complete'))
        )
        LIMIT 1`
-    ).bind(room_id, check_out, check_in, room_id, check_out, check_in, room_id, check_out, check_in).all();
+    ).bind(check_out, check_in, room_id, room_id, room_id, room_id).all();
 
     if (conflictingBookings.results && conflictingBookings.results.length > 0) {
       return new Response(JSON.stringify({ error: "Room is already booked for these dates" }), {
