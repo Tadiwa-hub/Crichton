@@ -296,22 +296,31 @@ const RoomCard = ({ room, index, onBook }) => {
         !isEven && "md:flex-row-reverse"
       )}
     >
-      <div className="w-full md:w-5/12 overflow-hidden rounded-xl group">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.6 }}
-          className="relative aspect-[16/10] md:aspect-[16/11]"
-        >
+      <div className="w-full md:w-5/12 relative flex flex-col gap-1 p-1 bg-white/20 rounded-xl">
+        <div className="overflow-hidden rounded-lg group aspect-[16/10] md:aspect-[16/11] relative">
           <motion.img 
             src={asset(room.image.startsWith('/') ? room.image.slice(1) : room.image)} 
             alt={room.name} 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="w-full h-full object-cover transition-transform duration-700"
+            className="w-full h-full object-cover rounded-lg transition-transform duration-700 hover:scale-105" 
           />
-          <div className="absolute inset-0 bg-forest/5 group-hover:bg-transparent transition-colors duration-500" />
-        </motion.div>
+          <div className="absolute inset-0 bg-forest/5 pointer-events-none" />
+        </div>
+        {room.gallery && room.gallery.length > 0 && (
+          <div className="grid grid-cols-3 gap-1 h-20 md:h-24 mt-1">
+            {room.gallery.slice(0, 3).map((img, i) => (
+              <div key={i} className="overflow-hidden rounded-md border border-gold/10 aspect-[4/3]">
+                <img 
+                  src={asset(img.startsWith('/') ? img.slice(1) : img)} 
+                  alt={`${room.name} gallery ${i}`} 
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       
       <div className="w-full md:w-7/12 px-4 md:px-6 py-2">
