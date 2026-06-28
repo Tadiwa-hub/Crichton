@@ -210,9 +210,12 @@ const RoomCard = ({ room, index, onBook }) => {
               {room.id === 'Full House Complete' ? 'Premium Group Package' : 'Best for Long Stays'}
             </div>
           </div>
-          {room.gallery && (
-            <div className="grid grid-cols-3 gap-1 h-24 md:h-32">
-              {room.gallery.map((img, i) => (
+          {room.gallery && room.gallery.length > 0 && (
+            <div className={cn(
+              "grid gap-1 h-24 md:h-32",
+              room.gallery.length === 1 ? "grid-cols-1" : room.gallery.length === 2 ? "grid-cols-2" : "grid-cols-3"
+            )}>
+              {room.gallery.slice(0, 3).map((img, i) => (
                 <div key={i} className="overflow-hidden rounded-md border border-gold/10">
                   <img 
                     src={asset(img.startsWith('/') ? img.slice(1) : img)} 
@@ -309,7 +312,10 @@ const RoomCard = ({ room, index, onBook }) => {
           <div className="absolute inset-0 bg-forest/5 pointer-events-none" />
         </div>
         {room.gallery && room.gallery.length > 0 && (
-          <div className="grid grid-cols-3 gap-1 h-20 md:h-24 mt-1">
+          <div className={cn(
+            "grid gap-1 h-20 md:h-24 mt-1",
+            room.gallery.length === 1 ? "grid-cols-1" : room.gallery.length === 2 ? "grid-cols-2" : "grid-cols-3"
+          )}>
             {room.gallery.slice(0, 3).map((img, i) => (
               <div key={i} className="overflow-hidden rounded-md border border-gold/10 aspect-[4/3]">
                 <img 
