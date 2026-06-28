@@ -32,7 +32,12 @@ function cn(...inputs) {
 }
 
 const baseUrl = import.meta.env.BASE_URL || "/";
-const asset = (path) => `${baseUrl}${path}`;
+const asset = (path) => {
+  if (!path) return "";
+  if (path.startsWith("data:") || path.startsWith("http:") || path.startsWith("https:")) return path;
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${baseUrl}${cleanPath}`;
+};
 
 const roomUIConfig = {
   "Sanyati": {
