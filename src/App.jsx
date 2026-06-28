@@ -457,19 +457,33 @@ export default function App() {
     if (!config && normalizedId.includes("self")) config = roomUIConfig["Self Catering"];
     if (!config && normalizedId.includes("sanyati")) config = roomUIConfig["Sanyati"];
     if (!config && normalizedId.includes("pungwe")) config = roomUIConfig["Pungwe"];
-    if (!config && normalizedId.includes("self")) config = roomUIConfig["Self Catering"];
-    if (!config && normalizedId.includes("sanyati")) config = roomUIConfig["Sanyati"];
-    if (!config && normalizedId.includes("pungwe")) config = roomUIConfig["Pungwe"];
     if (!config && normalizedId.includes("odzi")) config = roomUIConfig["Odzi"];
     if (!config && normalizedId.includes("gwayi")) config = roomUIConfig["Gwayi"];
     if (!config && normalizedId.includes("complete")) config = roomUIConfig["Full House Complete"];
     if (!config && normalizedId.includes("full")) config = roomUIConfig["Full House"];
     
+    // Dynamic database overrides
+    const defaultPrice = normalizedId.includes("sanyati") ? "65" : normalizedId.includes("pungwe") ? "55" : normalizedId.includes("self") ? "50" : normalizedId.includes("complete") ? "200" : normalizedId.includes("full") ? "160" : "45";
+    
+    let dbGallery = null;
+    if (room.gallery) {
+      try {
+        dbGallery = typeof room.gallery === 'string' ? JSON.parse(room.gallery) : room.gallery;
+      } catch (e) {
+        console.error("Failed to parse gallery JSON for room " + room.id, e);
+      }
+    }
+
     return {
       ...room,
-      price: normalizedId.includes("sanyati") ? "65" : normalizedId.includes("pungwe") ? "55" : normalizedId.includes("self") ? "50" : normalizedId.includes("complete") ? "200" : normalizedId.includes("full") ? "160" : "45",
-      image: config?.image || "/sanyati/room.jpg", // Ultimate fallback
-      ...(config || {})
+      price: room.price || defaultPrice,
+      image: room.image || config?.image || "/sanyati/room.jpg",
+      gallery: dbGallery || config?.gallery || null,
+      features: config?.features || ["Comfortable stay"],
+      type: config?.type || "Standard Room",
+      isSpecial: config?.isSpecial || false,
+      specialHeading: config?.specialHeading || "",
+      specialTagline: config?.specialTagline || ""
     };
   });
 
